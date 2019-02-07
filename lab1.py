@@ -95,7 +95,7 @@ def pruning(dataset,testing):
 "prune x times"
 monk1_err=[]
 monk3_err=[]
-for count in range(900):
+for count in range(901):
     monk1_err.append(pruning(data.monk1,data.monk1test))
     monk3_err.append(pruning(data.monk3,data.monk3test))
 print(np.mean(monk1_err,axis=0))
