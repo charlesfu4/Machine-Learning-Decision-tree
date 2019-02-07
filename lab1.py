@@ -54,29 +54,29 @@ for i in range(0,6):
 "build tree process"
 print('E_train')
 tree1=fun.buildTree(data.monk1,data.attributes)
-print(fun.check(tree1,data.monk1))
+print(1-fun.check(tree1,data.monk1))
 
 tree2=fun.buildTree(data.monk2,data.attributes)
-print(fun.check(tree2,data.monk2))
+print(1-fun.check(tree2,data.monk2))
 
 tree3=fun.buildTree(data.monk3,data.attributes)
-print(fun.check(tree3,data.monk3))
+print(1-fun.check(tree3,data.monk3))
 
 
 print('E_test')
 Ttree1=fun.buildTree(data.monk1,data.attributes)
-print(fun.check(Ttree1,data.monk1test))
+print(1-fun.check(Ttree1,data.monk1test))
 
 Ttree2=fun.buildTree(data.monk2,data.attributes)
-print(fun.check(Ttree2,data.monk2test))
+print(1-fun.check(Ttree2,data.monk2test))
 
 Ttree3=fun.buildTree(data.monk3,data.attributes)
-print(fun.check(Ttree3,data.monk3test))
+print(1-fun.check(Ttree3,data.monk3test))
 
 
 "tree pruning process"
 def pruning(dataset,testing):
-    fracs=[0.3,0.4,0.5,0.6,0.7,0.8]
+    fracs=[0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
     p_error=[]
     for frac in fracs:
         s_train, s_val = partition(dataset,frac)
@@ -95,30 +95,30 @@ def pruning(dataset,testing):
 "prune x times"
 monk1_err=[]
 monk3_err=[]
-for count in range(1000):
+for count in range(500):
     monk1_err.append(pruning(data.monk1,data.monk1test))
     monk3_err.append(pruning(data.monk3,data.monk3test))
 print(np.mean(monk1_err,axis=0))
 print(np.mean(monk3_err,axis=0))
 print(np.var(monk1_err,axis=0))
-print(np.var(monk1_err,axis=0))
+print(np.var(monk3_err,axis=0))
 
 
 "plot"
 Mean1=np.mean(monk1_err,axis=0)
 Mean3=np.mean(monk3_err,axis=0)
 Var1=np.var(monk1_err,axis=0)
-Var3=np.var(monk1_err,axis=0)
+Var3=np.var(monk3_err,axis=0)
 
-fracs=[0.3,0.4,0.5,0.6,0.7,0.8]
-monk1m=plt.plot(fracs,Mean1,'ro',label='monk1m')
-monk3m=plt.plot(fracs,Mean3,'bx',label='monk3m')
-"""monk1v=plt.plot(fracs,Var1,'gv',label='monk1v')
-monk3v=plt.plot(fracs,Var3,'ys',label='monk3v')"""
+fracs=[0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+monk1m=plt.plot(fracs,Mean1,'ro-',label='monk1m')
+monk3m=plt.plot(fracs,Mean3,'bx-',label='monk3m')
+"""monk1v=plt.plot(fracs,Var1,'gv-',label='monk1v')
+monk3v=plt.plot(fracs,Var3,'ys-',label='monk3v')"""
 
-plt.axis([0.2,0.9,0,0.5])
-plt.xlabel('Mean')
-plt.ylabel('Fractions')
+plt.axis([0.2,0.9,0,0.3])
+plt.xlabel('Fractions')
+plt.ylabel('Error Variance')
 plt.title('Pruning outcome')
 plt.legend(loc='upper right')
 plt.show()
